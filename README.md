@@ -86,6 +86,16 @@ npm run test:backend
 - `frontend/`: Contains the React.js frontend application files.
 - `common/`: (Optional) Contains shared code and utilities between the backend and frontend.
 
+# Production url
+
+Visit on Vercel [https://tijani-entro-test-jt3q-l1a4gtpp8-savannah-ass.vercel.app](https://tijani-entro-test-jt3q-l1a4gtpp8-savannah-ass.vercel.app/)
+
+## Documentation
+
+Visit Production [Swagger](https://rgpmnyrmq3.us-east-1.awsapprunner.com/swagger)
+
+On [localhost Swagger](http://localhost:8080/swagger)
+
 ## Contributing
 
 Feel free to contribute to this project by opening issues or submitting pull requests.

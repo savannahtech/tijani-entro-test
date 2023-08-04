@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ywn7a3hmkr.us-east-1.awsapprunner.com/api/v1';
+const BASE_URL = 'https://rgpmnyrmq3.us-east-1.awsapprunner.com/api/v1';
 
 export let baseUrl = process.env.REACT_APP_BASE_URL || BASE_URL;
 if (process.env.REACT_APP_NODE_ENV === 'development') {
