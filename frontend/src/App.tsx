@@ -1,14 +1,19 @@
 import React from 'react';
-import { ChakraProvider, Container } from '@chakra-ui/react';
-
-const Home = () => {
-  return <Container>Home Page</Container>;
-};
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import Home from './pages/Home';
+import { CREATE_TASK } from './contants/routesName';
+import CreateTask from './pages/Task/CreateTask';
 
 const App = () => {
   return (
     <ChakraProvider>
-      <Home />
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path={CREATE_TASK} element={<CreateTask />} />
+        </Routes>
+      </Router>
     </ChakraProvider>
   );
 };
