@@ -22,10 +22,38 @@ cd tijani-entro-test
 
 ```bash
 cd backend
-npm install
+yarn install
+
+## to confirm username on mac
+echo $USER
+
+
+
 
 cd ../frontend
-npm install
+yarn install
+```
+
+3. Setup Postgresql database:
+
+```bash
+### Setup via docker-compose
+
+# update the docker-compose.yml file
+
+## to confirm username on mac
+echo $USER
+
+# start up
+docker-compose up
+
+# Applying database migrations
+npx prisma migrate dev
+
+or
+
+yarn prisma migrate dev
+
 ```
 
 ## Running the Applications

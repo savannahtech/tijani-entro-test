@@ -19,14 +19,17 @@ import colors from '../../assets/styles/colors';
 import plusIcon from '../../assets/images/plusIcon.png';
 import CustomMenu from '../CustomMenu';
 import { AddIcon } from '@chakra-ui/icons';
-import Cards from '../Cards';
 import ConnectCard from '../ConnectCard';
+import moment from 'moment';
 
 type CreateTaskModalProps = {
   isOpen: boolean;
   onOpen: any;
   onClose: any;
   handleSubmit: () => void;
+  loading?: boolean;
+  data: any;
+  setData: any;
 };
 
 const CreateTaskModal = ({
@@ -34,6 +37,9 @@ const CreateTaskModal = ({
   onOpen,
   onClose,
   handleSubmit,
+  loading,
+  data,
+  setData,
 }: CreateTaskModalProps) => {
   const [step, setStep] = useState(1);
   const [showRelated, setShowRelated] = useState(false);
@@ -74,10 +80,12 @@ const CreateTaskModal = ({
                   size='sm'
                   _placeholder={{ color: colors.ebony, fontWeight: '600' }}
                   disabled={step === 1 ? false : true}
+                  value={data.title}
+                  onChange={(e) => setData({ ...data, title: e.target.value })}
                 />
 
                 <Text color={colors.gullGray} fontSize={12}>
-                  Sep 10, 2022 4:30 PM
+                  {moment(Date.now()).format('MMM DD, YYYY h:m A')}
                 </Text>
               </Box>
 
@@ -108,6 +116,10 @@ const CreateTaskModal = ({
                 resize='none'
                 borderRadius={5}
                 backgroundColor={colors.catskillWhite}
+                value={data.description}
+                onChange={(e) =>
+                  setData({ ...data, description: e.target.value })
+                }
               />
 
               <Box paddingX={3}>
@@ -166,6 +178,7 @@ const CreateTaskModal = ({
             {step === 1 ? 'Next' : 'Back'}
           </Button>
           <Button
+            isLoading={loading}
             onClick={handleSubmit}
             variant='outline'
             colorScheme='whiteAlpha'

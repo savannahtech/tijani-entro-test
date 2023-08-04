@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateTaskDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @IsEmail()
   readonly title: string;
 
   @ApiProperty({ required: false })
@@ -16,7 +15,6 @@ export class CreateTaskDto {
   readonly assigneeName: string;
 
   @ApiProperty({ required: false })
-  @IsNotEmpty()
   readonly status: string;
 
   @ApiProperty({ required: true })
@@ -31,5 +29,5 @@ export class CreateConnectDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  readonly otherId: number;
+  readonly relatedTaskId: number;
 }

@@ -12,8 +12,17 @@ import {
 import cardLogo from '../assets/images/Icon.png';
 import colors from '../assets/styles/colors';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import moment from 'moment';
 
-const Cards = () => {
+type CardsProps = {
+  title: string;
+  status: string;
+  date: string;
+  assignee: string;
+  onClick: () => void;
+};
+
+const Cards = ({ title, status, date, assignee, onClick }: CardsProps) => {
   return (
     <Card
       direction={{ base: 'row', sm: 'row' }}
@@ -24,13 +33,12 @@ const Cards = () => {
       maxW={{ base: '100%' }}
       size='sm'
       alignItems='center'
-      // boxShadow='md'
-      // marginBottom={5}
+      onClick={onClick}
     >
       <Image
         objectFit='contain'
-        maxW={{ base: '100%', sm: '80px' }}
-        maxH={{ base: '100px', sm: '80px' }}
+        // maxW={{ base: '100%', sm: '80px' }}
+        maxH={{ base: '100px', sm: '5rem' }}
         src={cardLogo}
         alt='Caffe Latte'
       />
@@ -39,12 +47,16 @@ const Cards = () => {
         direction={{ base: 'column', sm: 'row' }}
         w='100%'
         alignItems='center'
+        justifyContent='center'
       >
         <CardBody>
-          <Heading size='md'>Task Title</Heading>
+          <Heading size='md' fontSize={14} fontWeight='600'>
+            {title}
+          </Heading>
 
           <Text py='2' color={colors.gullGray}>
-            Assignee * Creation Date 10 Sep 10, 4:30
+            {assignee || ''} * Creation Date{' '}
+            {moment(date).format('MMM DD, h:m')}
           </Text>
         </CardBody>
         <Box
@@ -63,7 +75,7 @@ const Cards = () => {
             paddingRight={12}
             textColor={colors.fiord}
           >
-            Open
+            {status}
           </Button>
           <ChevronRightIcon color={colors.gullGray} boxSize={8} />
         </Box>

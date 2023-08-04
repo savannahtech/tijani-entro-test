@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CreateConnectDto, CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -8,23 +8,48 @@ export class TasksService {
   constructor(private prisma: PrismaService) {}
 
   async create(createTaskDto: CreateTaskDto) {
-    const { title, description, userId, assigneeName } = createTaskDto;
+    const { title, description, userId, assigneeName, status } = createTaskDto;
 
     const newTask = await this.prisma.task.create({
-      data: { title, description, userId, assigneeName, status: 'pending' },
+      data: {
+        title,
+        description,
+        userId,
+        assigneeName,
+        status: status || 'pending',
+      },
     });
 
     return newTask;
   }
 
+  async connectTask(connectDto: CreateConnectDto) {
+    const { taskId, relatedTaskId } = connectDto;
+
+    // find if connection exist
+    const isConnected = await this.prisma.connect.findUnique({
+      where: { id: taskId, otherId: relatedTaskId },
+    });
+
+    if (isConnected) {
+      throw new UnauthorizedException('Task linked already');
+    }
+
+    const newConnect = await this.prisma.connect.create({
+      data: { taskId, otherId: relatedTaskId },
+    });
+
+    return newConnect;
+  }
+
   findAll() {
-    return this.prisma.task.findMany({ include: { connected: true } });
+    return this.prisma.task.findMany();
   }
 
   findOne(id: number) {
     return this.prisma.task.findUnique({
       where: { id },
-      include: { user: true },
+      include: { connecter: { include: { connected: true } } },
     });
   }
 
