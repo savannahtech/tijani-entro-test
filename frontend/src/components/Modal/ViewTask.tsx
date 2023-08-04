@@ -3,42 +3,41 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalFooter,
   ModalBody,
-  Button,
   Divider,
   Box,
   Text,
   Stack,
   Image,
-  Input,
   Flex,
+  Wrap,
+  WrapItem,
+  Badge,
 } from '@chakra-ui/react';
+import moment from 'moment';
 import colors from '../../assets/styles/colors';
 import plusIcon from '../../assets/images/plusIcon.png';
-import CustomMenu from '../CustomMenu';
+import { AddIcon } from '@chakra-ui/icons';
+import Cards from '../Cards';
 
 type ViewTaskModalProps = {
   isOpen: boolean;
   onOpen: any;
   onClose: any;
+  task: any;
 };
 
-const ViewTaskModal = ({ isOpen, onOpen, onClose }: ViewTaskModalProps) => {
-  const [step, setStep] = useState(1);
-
-  const handleNext = () => {
-    if (step === 1) {
-      setStep(2);
-    } else {
-      // complete
-    }
-  };
+const ViewTaskModal = ({ isOpen, onClose, task }: ViewTaskModalProps) => {
+  const [showRelated, setShowRelated] = useState(true);
 
   return (
-    <Modal onClose={onClose} size='xl' isOpen={isOpen} isCentered>
+    <Modal onClose={onClose} size='3xl' isOpen={isOpen}>
       <ModalOverlay />
-      <ModalContent paddingTop={5} backgroundColor={colors.whiteLilac}>
+      <ModalContent
+        paddingTop={5}
+        backgroundColor={colors.whiteLilac}
+        // maxW={{ main: '100px', sm: '600px' }}
+      >
         <ModalBody>
           <Stack direction={{ base: 'row', sm: 'row' }}>
             <Image
@@ -57,64 +56,145 @@ const ViewTaskModal = ({ isOpen, onOpen, onClose }: ViewTaskModalProps) => {
               justifyContent='space-between'
             >
               <Box>
-                <Input
-                  variant='unstyled'
-                  placeholder='Task Title'
-                  size='sm'
-                  _placeholder={{ color: colors.ebony, fontWeight: '600' }}
-                />
+                <Text color={colors.ebony} fontSize={12} fontWeight='600'>
+                  {task?.title || 'Task Title'}
+                </Text>
 
                 <Text color={colors.gullGray} fontSize={12}>
-                  Sep 10, 2022 4:30 PM
+                  {moment(task?.createdAt).format('MMM DD, YYYY h:m A')}
                 </Text>
               </Box>
-
-              <Flex alignItems='center'>
-                <Text color={colors.gullGray} fontSize={12} marginRight={3}>
-                  Assign to
-                </Text>
-                <CustomMenu />
-              </Flex>
             </Stack>
           </Stack>
           <Divider mt={5} />
 
-          {step === 2 && (
-            <Box>
-              <Text color={colors.gullGray} fontSize={12} marginY={10}>
-                Description
+          <Wrap mt={5}>
+            <WrapItem>
+              <Box w='120px' h='80px'>
+                <Text color={colors.gullGray} fontSize={12}>
+                  Status
+                </Text>
+                <Badge
+                  ml='1'
+                  fontSize='0.7em'
+                  padding={2}
+                  color={colors.fiord}
+                  borderRadius='full'
+                  backgroundColor={colors.catskillWhite}
+                >
+                  {task?.status}
+                </Badge>
+              </Box>
+            </WrapItem>
+            <WrapItem>
+              <Box w='180px' h='80px'>
+                <Text color={colors.gullGray} fontSize={12}>
+                  Date Created
+                </Text>
+                <Badge
+                  ml='1'
+                  fontSize='0.7em'
+                  padding={2}
+                  color={colors.fiord}
+                  borderRadius='full'
+                  backgroundColor={colors.catskillWhite}
+                >
+                  {moment(task?.createdAt).format('MMM DD, YYYY h:m A')}
+                </Badge>
+              </Box>
+            </WrapItem>
+            <WrapItem>
+              <Box w='120px' h='80px'>
+                <Text color={colors.gullGray} fontSize={12}>
+                  Assignee
+                </Text>
+                <Badge
+                  ml='1'
+                  fontSize='0.7em'
+                  padding={2}
+                  color={colors.fiord}
+                  borderRadius='full'
+                  backgroundColor={colors.catskillWhite}
+                >
+                  {task?.assigneeName || 'Unassigned'}
+                </Badge>
+              </Box>
+            </WrapItem>
+          </Wrap>
+
+          <Box>
+            <Text color={colors.gullGray} fontSize={12}>
+              Description
+            </Text>
+            <Box backgroundColor={colors.catskillWhite} h={100} padding={4}>
+              <Text color={colors.fiord} fontSize={12}>
+                {task?.description || ''}
               </Text>
             </Box>
-          )}
+
+            <Flex paddingX={3}>
+              <Text
+                color={showRelated ? colors.mirage : colors.paleSky}
+                fontSize={14}
+                marginTop={10}
+                marginBottom={2}
+                marginRight={3}
+                fontWeight='600'
+                borderBottomColor={showRelated ? colors.mirage : 'none'}
+                borderX='none'
+                borderTop='none'
+                borderWidth={1}
+              >
+                Related tasks
+              </Text>
+              <Text
+                color={!showRelated ? colors.mirage : colors.paleSky}
+                fontSize={14}
+                marginTop={10}
+                marginBottom={2}
+                fontWeight='600'
+                borderBottomColor={!showRelated ? colors.mirage : 'none'}
+                borderX='none'
+                borderTop='none'
+                borderWidth={1}
+              >
+                Watchers
+              </Text>
+            </Flex>
+
+            <Stack spacing='4' marginY={5}>
+              {task?.connecter?.length
+                ? task.connecter.map((item: any) => (
+                    <Cards
+                      key={item.id}
+                      title={item?.connected?.title}
+                      status={item?.connected?.status}
+                      date={item?.connected?.createdAt}
+                      assignee={item?.connected?.assigneeName}
+                      onClick={() => {
+                        console.log('here');
+                      }}
+                    />
+                  ))
+                : ''}
+            </Stack>
+            <Flex
+              alignItems='center'
+              marginY={5}
+              onClick={() => setShowRelated(true)}
+            >
+              <AddIcon />
+              <Text
+                color={colors.fiord}
+                fontSize={16}
+                fontWeight='500'
+                marginLeft={2}
+              >
+                Link to other tasks
+              </Text>
+            </Flex>
+          </Box>
         </ModalBody>
-        <ModalFooter>
-          <Button
-            onClick={handleNext}
-            mr={3}
-            variant='solid'
-            colorScheme='messenger'
-            backgroundColor={colors.denim}
-            paddingX={8}
-            textColor={colors.white}
-            size='sm'
-            fontSize='12px'
-          >
-            Next
-          </Button>
-          <Button
-            onClick={onClose}
-            variant='outline'
-            colorScheme='whiteAlpha'
-            backgroundColor={colors.catskillWhite}
-            borderColor={colors.mystic}
-            paddingX={8}
-            textColor={colors.fiord}
-            size='sm'
-            fontSize='12px'
-          >
-            Finish
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

@@ -8,6 +8,7 @@ const colors = {
   ebony: '#101828',
   whiteLilac: '#F7F9FC',
   mirage: '#1D2939',
+  paleSky: '#667085',
 };
 
 export default colors;

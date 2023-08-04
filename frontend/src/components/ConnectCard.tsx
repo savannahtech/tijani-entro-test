@@ -22,11 +22,13 @@ const ConnectCard = () => {
       maxW={{ base: '100%' }}
       size='sm'
       alignItems='center'
+      justifyContent='center'
+      py={2}
     >
       <Image
         objectFit='contain'
-        maxW={{ base: '100%', sm: '60px' }}
-        maxH={{ base: '100px', sm: '60px' }}
+        // maxW={{ base: '100px', sm: '60px' }}
+        maxH={{ base: '100px', sm: '45px' }}
         src={cardLogo}
         alt='Caffe Latte'
       />
@@ -38,11 +40,11 @@ const ConnectCard = () => {
         justifyContent='space-between'
       >
         <CardBody>
-          <Heading size='sm'>Task Title</Heading>
+          <Heading size='sm' fontSize={14} fontWeight='600'>
+            Task Title
+          </Heading>
 
-          <Text py='2' color={colors.gullGray}>
-            description
-          </Text>
+          <Text color={colors.gullGray}>description</Text>
         </CardBody>
         <Box>
           <Button
