@@ -9,6 +9,21 @@ Before getting started, ensure you have the following installed on your system:
 - Node.js (version X.X.X or higher)
 - npm or Yarn
 
+## Infrastructure
+
+Backend
+
+- NestJs for RESTful API
+- Postgresql
+- Prisma ORM
+
+Frontend
+
+- ReactJs
+- ChakraUI
+- State management tool - Context API
+- axios HTTP Client
+
 ## Installation
 
 1. Clone this repository to your local machine:
@@ -54,6 +69,11 @@ or
 
 yarn prisma migrate dev
 
+
+### Setup via env
+
+You can add your database url in your env file
+
 ```
 
 ## Running the Applications
@@ -88,7 +108,7 @@ yarn test:backend
 
 # Production url
 
-Visit on Vercel [https://tijani-entro-test-jt3q-l1a4gtpp8-savannah-ass.vercel.app](https://tijani-entro-test-jt3q-l1a4gtpp8-savannah-ass.vercel.app/)
+Visit on Vercel [https://tijani-entro-test-jt3q.vercel.app/](https://tijani-entro-test-jt3q.vercel.app/)
 
 ## Documentation
 
@@ -97,6 +117,22 @@ Visit Production [Swagger](https://rgpmnyrmq3.us-east-1.awsapprunner.com/swagger
 On [localhost Swagger](http://localhost:8080/swagger)
 
 ## Assignment Note
+
+# Feature List
+
+Completed:
+
+List of view tasks
+View existing tasks
+Create new tasks
+Ability to view each task in a more detailed view
+Related Tickets
+Deploy the code to vercel
+Documentation (swagger)
+
+Pending:
+Pagination
+Ability to add coments
 
 Go to this [link](https://docs.google.com/document/d/1dOmSe05XOLQu847ENRgZQ62P-GxH26t3cN3nTw2LmlE/edit?usp=sharing)
 
