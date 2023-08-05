@@ -180,8 +180,8 @@ Completed:
 
 Pending:
 
-- Pagination
-- Ability to add coments
+- Pagination (Bonus task)
+- Ability to add coments (Bonus task)
 
 ## Contributing
 
