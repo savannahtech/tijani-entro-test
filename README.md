@@ -62,7 +62,7 @@ yarn prisma migrate dev
 
 To start the Node.js backend server, run the following command from the root directory:
 
-npm run start:backend
+yarn start:backend
 
 The backend will be accessible at http://localhost:8080.
 
@@ -70,7 +70,7 @@ The backend will be accessible at http://localhost:8080.
 
 To start the React.js frontend application, run the following command from the root directory:
 
-npm run start:frontend
+yarn start:frontend
 
 The frontend will be accessible at http://localhost:3000.
 
@@ -78,7 +78,7 @@ The frontend will be accessible at http://localhost:3000.
 
 To run tests for the backend application, use the following command:
 
-npm run test:backend
+yarn test:backend
 
 ## Folder Structure
 
@@ -95,6 +95,10 @@ Visit on Vercel [https://tijani-entro-test-jt3q-l1a4gtpp8-savannah-ass.vercel.ap
 Visit Production [Swagger](https://rgpmnyrmq3.us-east-1.awsapprunner.com/swagger)
 
 On [localhost Swagger](http://localhost:8080/swagger)
+
+## Assignment Note
+
+Go to this [link](https://docs.google.com/document/d/1dOmSe05XOLQu847ENRgZQ62P-GxH26t3cN3nTw2LmlE/edit?usp=sharing)
 
 ## Contributing
 

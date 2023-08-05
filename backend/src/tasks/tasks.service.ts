@@ -8,7 +8,8 @@ export class TasksService {
   constructor(private prisma: PrismaService) {}
 
   async create(createTaskDto: CreateTaskDto) {
-    const { title, description, userId, assigneeName, status } = createTaskDto;
+    const { title, description, userId, assigneeName, status, relatedTask } =
+      createTaskDto;
 
     const newTask = await this.prisma.task.create({
       data: {
@@ -19,6 +20,21 @@ export class TasksService {
         status: status || 'pending',
       },
     });
+
+    if (relatedTask && relatedTask.length) {
+      relatedTask.map(async (item) => {
+        const isConnected = await this.prisma.connect.findFirst({
+          where: { taskId: newTask.id, otherId: item },
+        });
+
+        if (!isConnected) {
+          console.log('gets here');
+          await this.prisma.connect.create({
+            data: { taskId: newTask.id, otherId: item },
+          });
+        }
+      });
+    }
 
     return newTask;
   }

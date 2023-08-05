@@ -10,3 +10,12 @@ export interface TaskProps {
   updatedAt: string;
   userId: number;
 }
+
+export interface ConnectTaskProps {
+  // taskId: number;
+  relatedTaskId: number;
+}
+
+export interface ReactNodeProps {
+  children: React.ReactNode;
+}

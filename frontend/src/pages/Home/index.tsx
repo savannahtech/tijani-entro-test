@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Container,
   Flex,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
@@ -14,9 +15,11 @@ import CreateTaskModal from '../../components/Modal/CreateTask';
 import { httpGet, httpPost } from '../../services/http';
 import { TaskProps } from '../../models/interface';
 import ViewTaskModal from '../../components/Modal/ViewTask';
+import { GlobalContext } from '../../context/global';
 
 export default function Index() {
   const toast = useToast();
+  const { connectedTask, resetConnectedTask } = useContext<any>(GlobalContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -26,7 +29,6 @@ export default function Index() {
 
   const handleGetTasks = async () => {
     const res = await httpGet('tasks');
-    console.log('res', res);
     setTasks(res);
   };
 
@@ -34,12 +36,17 @@ export default function Index() {
     handleGetTasks();
   }, []);
 
+  const clearState = () => {
+    setData({});
+    resetConnectedTask();
+  };
+
   const handleCreateTask = async () => {
     setLoading(true);
     const res = await httpPost('tasks', {
       ...data,
-      assigneeName: 'Femi',
       userId: 1,
+      relatedTask: connectedTask,
     });
     if (res.status) {
       toast({
@@ -65,6 +72,8 @@ export default function Index() {
     }
     // stop loader
     setLoading(false);
+    // clear state
+    clearState();
   };
 
   const handleGetATask = async (id: number) => {
@@ -97,31 +106,37 @@ export default function Index() {
         </Button>
       </Flex>
       <Stack spacing='4'>
-        {tasks.length
-          ? tasks.map((item: TaskProps) => (
-              <Cards
-                key={item?.id}
-                title={item?.title}
-                status={item.status}
-                date={item.createdAt}
-                assignee={item.assigneeName}
-                onClick={() => {
-                  handleGetATask(item.id);
-                }}
-              />
-            ))
-          : ''}
+        {tasks.length ? (
+          tasks.map((item: TaskProps) => (
+            <Cards
+              key={item?.id}
+              title={item?.title}
+              status={item.status}
+              date={item.createdAt}
+              assignee={item.assigneeName}
+              onClick={() => {
+                handleGetATask(item.id);
+              }}
+            />
+          ))
+        ) : (
+          <Spinner />
+        )}
       </Stack>
 
       {isOpen && (
         <CreateTaskModal
           isOpen={isOpen}
           onOpen={onOpen}
-          onClose={onClose}
+          onClose={() => {
+            onClose();
+            clearState();
+          }}
           handleSubmit={handleCreateTask}
           loading={loading}
           data={data}
           setData={setData}
+          relatedTask={[...tasks]}
         />
       )}
 

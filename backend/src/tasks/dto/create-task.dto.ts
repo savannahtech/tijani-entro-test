@@ -20,6 +20,9 @@ export class CreateTaskDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   readonly userId: number;
+
+  @ApiProperty({ required: false })
+  readonly relatedTask: number[];
 }
 
 export class CreateConnectDto {

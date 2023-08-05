@@ -3,7 +3,13 @@ import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import colors from '../../assets/styles/colors';
 
-const Index = () => {
+type CustomMenuProps = {
+  setData: (x: string) => void;
+  data: any;
+};
+
+const Index = ({ setData, data }: CustomMenuProps) => {
+  const dropDownList = ['Unassigned', 'Rick', 'jerry', 'Beth'];
   return (
     <Menu>
       {({ isOpen }) => (
@@ -16,13 +22,17 @@ const Index = () => {
             textColor={colors.fiord}
             fontSize={13}
           >
-            Unassigned
+            {data.assigneeName || 'Unassigned'}
           </MenuButton>
           <MenuList>
-            <MenuItem>Unassigned</MenuItem>
-            <MenuItem>Rick</MenuItem>
-            <MenuItem>Jerry</MenuItem>
-            <MenuItem>Beth</MenuItem>
+            {dropDownList.map((item) => (
+              <MenuItem
+                key={`${Math.random()}-${item}`}
+                onClick={() => setData({ ...data, assigneeName: item })}
+              >
+                {item}
+              </MenuItem>
+            ))}
           </MenuList>
         </>
       )}

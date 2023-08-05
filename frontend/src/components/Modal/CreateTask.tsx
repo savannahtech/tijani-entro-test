@@ -21,6 +21,7 @@ import CustomMenu from '../CustomMenu';
 import { AddIcon } from '@chakra-ui/icons';
 import ConnectCard from '../ConnectCard';
 import moment from 'moment';
+import { TaskProps } from '../../models/interface';
 
 type CreateTaskModalProps = {
   isOpen: boolean;
@@ -30,6 +31,7 @@ type CreateTaskModalProps = {
   loading?: boolean;
   data: any;
   setData: any;
+  relatedTask: TaskProps[];
 };
 
 const CreateTaskModal = ({
@@ -40,6 +42,7 @@ const CreateTaskModal = ({
   loading,
   data,
   setData,
+  relatedTask,
 }: CreateTaskModalProps) => {
   const [step, setStep] = useState(1);
   const [showRelated, setShowRelated] = useState(false);
@@ -80,7 +83,7 @@ const CreateTaskModal = ({
                   size='sm'
                   _placeholder={{ color: colors.ebony, fontWeight: '600' }}
                   disabled={step === 1 ? false : true}
-                  value={data.title}
+                  value={data?.title || ''}
                   onChange={(e) => setData({ ...data, title: e.target.value })}
                 />
 
@@ -93,7 +96,7 @@ const CreateTaskModal = ({
                 <Text color={colors.gullGray} fontSize={12} marginRight={3}>
                   Assign to
                 </Text>
-                <CustomMenu />
+                <CustomMenu setData={setData} data={data} />
               </Flex>
             </Stack>
           </Stack>
@@ -116,7 +119,7 @@ const CreateTaskModal = ({
                 resize='none'
                 borderRadius={5}
                 backgroundColor={colors.catskillWhite}
-                value={data.description}
+                value={data?.description || ''}
                 onChange={(e) =>
                   setData({ ...data, description: e.target.value })
                 }
@@ -154,10 +157,11 @@ const CreateTaskModal = ({
                 </Flex>
               ) : (
                 <Stack spacing='4' marginY={5}>
-                  <ConnectCard />
-                  <ConnectCard />
-                  <ConnectCard />
-                  <ConnectCard />
+                  {relatedTask.length
+                    ? relatedTask
+                        .slice(0, 3)
+                        .map((item) => <ConnectCard item={item} />)
+                    : ''}
                 </Stack>
               )}
             </Box>
