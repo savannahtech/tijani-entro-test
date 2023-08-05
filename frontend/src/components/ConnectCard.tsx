@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Box,
   Button,
@@ -11,8 +11,16 @@ import {
 } from '@chakra-ui/react';
 import cardLogo from '../assets/images/Icon.png';
 import colors from '../assets/styles/colors';
+import { TaskProps } from '../models/interface';
+import { GlobalContext } from '../context/global';
 
-const ConnectCard = () => {
+type ConnectCardProps = {
+  item: TaskProps;
+};
+
+const ConnectCard = ({ item }: ConnectCardProps) => {
+  const { saveConnectedTask, connectedTask } = useContext<any>(GlobalContext);
+
   return (
     <Card
       direction={{ base: 'row', sm: 'row' }}
@@ -41,10 +49,10 @@ const ConnectCard = () => {
       >
         <CardBody>
           <Heading size='sm' fontSize={14} fontWeight='600'>
-            Task Title
+            {item?.title || ''}
           </Heading>
 
-          <Text color={colors.gullGray}>description</Text>
+          <Text color={colors.gullGray}>{item?.description || ''}</Text>
         </CardBody>
         <Box>
           <Button
@@ -52,8 +60,12 @@ const ConnectCard = () => {
             colorScheme='white'
             borderColor={colors.mystic}
             textColor={colors.fiord}
+            onClick={() => saveConnectedTask(item?.id)}
+            disabled={connectedTask.find((z: number) => z === item.id)}
           >
-            Link +
+            {connectedTask.find((z: number) => z === item.id)
+              ? 'pending'
+              : 'Link +'}
           </Button>
         </Box>
       </Stack>
