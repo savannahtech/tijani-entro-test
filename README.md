@@ -160,7 +160,7 @@ Visit on Vercel [https://tijani-entro-test-jt3q.vercel.app/](https://tijani-entr
 
 ## Documentation
 
-Visit Production [Swagger](https://rgpmnyrmq3.us-east-1.awsapprunner.com/swagger)
+Visit Production [Swagger](https://entroapi.fly.dev/swagger)
 
 On [localhost Swagger](http://localhost:8080/swagger)
 
